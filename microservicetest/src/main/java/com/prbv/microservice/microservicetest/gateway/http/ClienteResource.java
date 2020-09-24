@@ -1,5 +1,8 @@
 package com.prbv.microservice.microservicetest.gateway.http;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +26,30 @@ public class ClienteResource {
 	@Autowired
 	private ClienteService clienteService;
 	
-	@GetMapping("meu/cliente")
-	public ClienteDTO getCliente() {
-		ClienteDTO cliente = new ClienteDTO();
-		cliente.setId(1L);
-		cliente.setName("Paulo Valentim");
-		return cliente;
+	@GetMapping("meus/cliente")
+	public List<ClienteDTO> buscarTodos() {
+		
+		List<ClienteDTO> clientesList = new ArrayList<>();
+		
+		Iterable<Cliente> clintes =  clienteService.buscarTodos();
+		
+		clintes.forEach(cliente -> clientesList.add(ClienteDTO.builder().name(cliente.getName()).id(cliente.getId()).build()));
+		
+		return clientesList;
 	}
 
+	@GetMapping("meus/cliente2")
+	public List<Cliente> buscarTodos2() {
+				
+		
+		List<Cliente> clintes =  clienteService.buscarTodos();
+				
+		
+		return clintes;
+	}	
+	
 	@PostMapping("meu/cliente")
-	public void setCliente(@Valid @RequestBody ClienteDTO clienteDTO) {
+	public void salvar(@Valid @RequestBody ClienteDTO clienteDTO) {
 		log.info("Nome do Cliente é " + clienteDTO.getName());
 		
 		Cliente cliente = Cliente.builder().name(clienteDTO.getName()).build();

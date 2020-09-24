@@ -1,5 +1,7 @@
 package com.prbv.microservice.microservicetest.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,5 +24,12 @@ public class ClienteService {
 		
 		log.info("Cliente Salvo com ID= " + cliente.getId());
 	}
+	
+	public List<Cliente> buscarTodos() {
+		log.info("Buscando clientes");
+		
+		return (List<Cliente>) clienteRepository.findAll();
+
+	}	
 	
 }
